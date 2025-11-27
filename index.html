@@ -569,30 +569,46 @@
       });
     }
 
-    function generatePlan() {
-      const goalInput = document.getElementById("goalInput");
-      const goal = goalInput.value.trim() || "get a great opportunity";
-      const steps = [
-        "Define the exact role or outcome you want.",
-        "List 10 organizations or companies that match this goal.",
-        "Find 2 people at each organization on LinkedIn.",
-        "Update your resume so the top third screams this goal.",
-        "Rewrite your LinkedIn headline to reflect this role.",
-        "Create one simple project or work sample you can show.",
-        "Reach out to 3 people per week asking for honest advice.",
-        "Apply to at least 3 roles per week that truly fit.",
-        "Set up email and LinkedIn alerts for this role.",
-        "Practice common interview questions for 15 minutes, twice a week.",
-        "Write one short cold email template you can reuse.",
-        "Follow 10 industry leaders and engage with their posts.",
-        "Attend one free online or in-person event this month.",
-        "Track every application and conversation in a simple sheet.",
-        "Review progress every Sunday and choose one small tweak for next week."
-      ];
-      const text = `My goal is to ${goal}.\n\n15-step plan:\n\n` +
-        steps.map((s, i) => `${i + 1}. ${s}`).join("\n");
-      document.getElementById("planOutput").value = text;
+    <script>
+  // ... keep all the other script code as-is above
+
+  async function generatePlan() {
+    const goalInput = document.getElementById("goalInput");
+    const goal = goalInput.value.trim();
+    const output = document.getElementById("planOutput");
+
+    if (!goal) {
+      output.value = "Type a clear goal first (e.g. “Get a data science internship in NYC for summer 2026”).";
+      return;
     }
+
+    output.value = "Thinking about your next 30 tiny steps… This can take a few seconds.";
+
+    try {
+      const response = await fetch('/api/plan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ goal })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('Plan API error:', errorData);
+        output.value = "Something went wrong generating your plan. Try again in a bit.";
+        return;
+      }
+
+      const data = await response.json();
+      output.value = data.plan || "No plan generated. Try a more specific goal.";
+    } catch (err) {
+      console.error(err);
+      output.value = "Network error. Check your connection and try again.";
+    }
+  }
+
+  // keep copyLink(), renderDaily(), renderPlaces(), renderEvents(), etc.
+</script>
+
 
     function copyLink() {
       const status = document.getElementById("copyStatus");
