@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Holiday Companion – International Students</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #111111;
+      --muted: #777777;
+      --border: #e5e5e5;
+      --accent: #111111;
+      --accent-soft: #f5f5f5;
+      --highlight: #b3363b;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+    a {
+      color: var(--highlight);
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    .hero {
+      position: relative;
+      height: 60vh;
+      min-height: 380px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=crop&w=1400&q=80");
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.5);
+      transform: scale(1.03);
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.6));
+    }
+    .hero-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+    }
+    .hero-title {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.4rem, 4vw, 3.2rem);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+    .hero-subtitle {
+      font-size: 1.05rem;
+      max-width: 540px;
+      margin: 0 auto 1.75rem;
+      line-height: 1.6;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.85rem 1.9rem;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn-primary:hover {
+      background: #fff;
+      color: var(--accent);
+    }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 1.25rem 4rem;
+    }
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1rem;
+    }
+    .brand {
+      font-family: "Playfair Display", serif;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.95rem;
+    }
+    .nav-links {
+      display: flex;
+      gap: 1.25rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .nav-link {
+      cursor: pointer;
+      position: relative;
+      padding-bottom: 0.25rem;
+    }
+    .nav-link.active::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      height: 1px;
+      width: 100%;
+      background: var(--text);
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 2.3fr 1.2fr;
+      gap: 2.3rem;
+    }
+    @media (max-width: 900px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+      .nav-links {
+        display: none;
+      }
+    }
+    .section {
+      margin-bottom: 2rem;
+    }
+    .section-title {
+      font-family: "Playfair Display", serif;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 0.3rem;
+    }
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 1.35rem;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 0.9rem;
+    }
+    .card {
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #fff;
+      padding: 0.9rem 0.95rem;
+      cursor: pointer;
+      transition: box-shadow 0.17s ease, transform 0.17s ease, border-color 0.17s ease;
+      font-size: 0.86rem;
+      line-height: 1.4;
+    }
+    .card:hover {
+      box-shadow: 0 14px 30px rgba(0,0,0,0.06);
+      transform: translateY(-2px);
+      border-color: #d4d4d4;
+    }
+    .card-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.1rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-bottom: 0.4rem;
+      color: var(--muted);
+    }
+    .card-title {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+      font-size: 0.86rem;
+    }
+    .card-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-size: 0.78rem;
+      margin-top: 0.1rem;
+    }
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 0.9rem;
+    }
+    select, input, textarea {
+      font-family: inherit;
+      font-size: 0.9rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 0.55rem 0.85rem;
+      outline: none;
+      width: 100%;
+    }
+    select:focus, input:focus, textarea:focus {
+      border-color: #111;
+    }
+    textarea {
+      border-radius: 14px;
+      resize: vertical;
+      min-height: 140px;
+      padding: 0.75rem 0.85rem;
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: #fff;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin-top: 0.7rem;
+    }
+    .btn-secondary:hover {
+      background: var(--accent-soft);
+    }
+    .sidebar-card {
+      border-radius: 18px;
+      border: 1px solid var(--border);
+      padding: 1.1rem 1.25rem;
+      margin-bottom: 1.3rem;
+      background: #fff;
+    }
+    .sidebar-title {
+      font-family: "Playfair Display", serif;
+      font-size: 1rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .sidebar-text {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.7rem;
+    }
+    .chip {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 0.25rem 0.7rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+    }
+    .section-divider {
+      height: 1px;
+      width: 100%;
+      background: var(--border);
+      margin: 2.25rem 0 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-title">Holiday Companion</div>
+      <p class="hero-subtitle">
+        A simple, beautiful guide for international students spending the holidays in the U.S.  
+        One helpful thing every day—so you feel less alone, more intentional, and quietly powerful.
+      </p>
+      <button class="btn-primary" onclick="scrollToMain()">Start</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <div class="top-nav">
+      <div class="brand">Holiday Companion</div>
+      <div class="nav-links">
+        <span class="nav-link active">Daily</span>
+        <span class="nav-link">Places</span>
+        <span class="nav-link">Events</span>
+        <span class="nav-link">Career</span>
+      </div>
+    </div>
+
+    <div class="layout">
+      <!-- LEFT COLUMN -->
+      <div>
+        <!-- Daily Challenges -->
+        <section class="section" id="daily-section">
+          <h2 class="section-title">Daily Challenges</h2>
+          <p class="section-subtitle">
+            31 tiny actions you can take between now and the New Year. Tap one and just do it today.
+          </p>
+          <div id="dailyGrid" class="card-grid"></div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Places Open -->
+        <section class="section" id="places-section">
+          <h2 class="section-title">What’s Open Today</h2>
+          <p class="section-subtitle">
+            Cafés, gyms, and grocery stores likely open around the holidays. Use Google Maps to confirm hours.
+          </p>
+          <div class="pill-row">
+            <select id="citySelect" onchange="renderPlaces()">
+              <option value="Boston">Boston</option>
+              <option value="New York City">New York City</option>
+              <option value="San Francisco">San Francisco</option>
+              <option value="Los Angeles">Los Angeles</option>
+              <option value="Chicago">Chicago</option>
+            </select>
+          </div>
+          <div id="placesGrid" class="card-grid"></div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Events -->
+        <section class="section" id="events-section">
+          <h2 class="section-title">Events Under $20</h2>
+          <p class="section-subtitle">
+            Low-cost things to do so you’re not stuck in your room all day. Always double-check details online.
+          </p>
+          <div class="pill-row">
+            <select id="eventsCitySelect" onchange="renderEvents()">
+              <option value="Boston">Boston</option>
+              <option value="New York City">New York City</option>
+              <option value="San Francisco">San Francisco</option>
+              <option value="Los Angeles">Los Angeles</option>
+              <option value="Chicago">Chicago</option>
+            </select>
+          </div>
+          <div id="eventsGrid" class="card-grid"></div>
+        </section>
+      </div>
+
+      <!-- RIGHT COLUMN -->
+      <aside>
+        <!-- Job Planner -->
+        <div class="sidebar-card">
+          <h3 class="sidebar-title">Job Goal Planner</h3>
+          <p class="sidebar-text">
+            Have one clear goal this break (e.g. “Get a summer internship in data science”).  
+            We’ll turn it into a 15-step plan you can chip away at.
+          </p>
+          <input id="goalInput" placeholder="My goal is..." />
+          <button class="btn-secondary" onclick="generatePlan()">Generate Steps</button>
+          <textarea id="planOutput" placeholder="Your 15-step plan will appear here…" readonly></textarea>
+        </div>
+
+        <!-- Share -->
+        <div class="sidebar-card">
+          <h3 class="sidebar-title">Share This</h3>
+          <p class="sidebar-text">
+            Know another international student spending the holidays alone?  
+            Send them this link as a tiny act of kindness.
+          </p>
+          <button class="btn-secondary" onclick="copyLink()">Copy App Link</button>
+          <div id="copyStatus" class="sidebar-text" style="margin-top:0.6rem;"></div>
+        </div>
+
+        <!-- Vibes -->
+        <div class="sidebar-card">
+          <h3 class="sidebar-title">Today’s Energy</h3>
+          <p class="sidebar-text">
+            You’re not “behind” because you’re staying on campus.  
+            Use this time to quietly stack tiny wins.
+          </p>
+          <div class="chips">
+            <div class="chip">Gentle Ambition</div>
+            <div class="chip">One Tiny Step</div>
+            <div class="chip">No Comparison</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    // Data
+    const dailyChallenges = [
+      "Apply to one internship today—only one.",
+      "Go to a café you’ve never been to.",
+      "Message one old friend and reconnect.",
+      "Take a 20-minute walk in the cold—it boosts mood fast.",
+      "Make a simple 5-ingredient meal.",
+      "Declutter your desk or room for 10 minutes.",
+      "Do a 30-minute workout (YouTube counts).",
+      "Review your resume for 10 minutes.",
+      "Watch a documentary that inspires you.",
+      "Try one free event in your city today.",
+      "Text someone you admire and tell them why.",
+      "Write down your top 10 goals for 2026.",
+      "Try one new grocery item from another culture.",
+      "Meditate for 5 minutes.",
+      "Read 10 pages of a book.",
+      "Join a public online workshop or webinar.",
+      "Write a gratitude list of 10 things.",
+      "Go to a gym that offers a free day pass.",
+      "Spend 1 hour working on a long-term dream.",
+      "Clean your digital life: delete 20 files.",
+      "Cook one healthy meal and freeze leftovers.",
+      "Explore one neighborhood you’ve never visited.",
+      "Create a new LinkedIn banner & headline.",
+      "Do a 24-hour no junk food challenge.",
+      "Review your finances for the next 3 months.",
+      "Try a hobby you’ve been avoiding (drawing, music, writing).",
+      "Call family or someone who loves you.",
+      "Review your job search goals for 2025.",
+      "Do a YouTube yoga class.",
+      "Volunteer or help one person today.",
+      "Write your New Year intention & take yourself on a date."
+    ];
+
+    const places = [
+      // Boston
+      { city: "Boston", name: "Tatte Bakery (Back Bay)", category: "Cafe", hours: "Open until ~5pm" },
+      { city: "Boston", name: "Thinking Cup", category: "Cafe", hours: "Open until ~6pm" },
+      { city: "Boston", name: "Caffè Nero (Back Bay)", category: "Cafe", hours: "Open until ~4pm" },
+      { city: "Boston", name: "Planet Fitness (Downtown)", category: "Gym", hours: "Approx. 7am–7pm" },
+      { city: "Boston", name: "Star Market (Fenway)", category: "Grocery", hours: "Open until ~6pm" },
+
+      // NYC
+      { city: "New York City", name: "Blue Bottle (Bryant Park)", category: "Cafe", hours: "Open until ~4pm" },
+      { city: "New York City", name: "Think Coffee", category: "Cafe", hours: "Open until ~6pm" },
+      { city: "New York City", name: "La Colombe (SoHo)", category: "Cafe", hours: "Open until ~5pm" },
+      { city: "New York City", name: "Crunch Fitness (Flatiron)", category: "Gym", hours: "Approx. 8am–4pm" },
+      { city: "New York City", name: "Trader Joe’s (Union Square)", category: "Grocery", hours: "Open until ~6pm" },
+
+      // SF
+      { city: "San Francisco", name: "Philz Coffee (Mission)", category: "Cafe", hours: "Open until ~4pm" },
+      { city: "San Francisco", name: "Blue Bottle (Ferry Building)", category: "Cafe", hours: "Open until ~5pm" },
+      { city: "San Francisco", name: "Peet’s Coffee (Market St.)", category: "Cafe", hours: "Open until ~3pm" },
+      { city: "San Francisco", name: "24 Hour Fitness (Mission)", category: "Gym", hours: "Open until ~6pm" },
+      { city: "San Francisco", name: "Safeway (Mission)", category: "Grocery", hours: "Open until ~6pm" },
+
+      // LA
+      { city: "Los Angeles", name: "Alfred Coffee", category: "Cafe", hours: "Open until ~5pm" },
+      { city: "Los Angeles", name: "Blue Bottle (Venice)", category: "Cafe", hours: "Open until ~4pm" },
+      { city: "Los Angeles", name: "Intelligentsia (Silver Lake)", category: "Cafe", hours: "Open until ~4pm" },
+      { city: "Los Angeles", name: "LA Fitness (Hollywood)", category: "Gym", hours: "Open until ~6pm" },
+      { city: "Los Angeles", name: "Ralphs (Downtown)", category: "Grocery", hours: "Open until ~6pm" },
+
+      // Chicago
+      { city: "Chicago", name: "Intelligentsia (Logan Square)", category: "Cafe", hours: "Open until ~4pm" },
+      { city: "Chicago", name: "Dollop Coffee", category: "Cafe", hours: "Open until ~3pm" },
+      { city: "Chicago", name: "Planet Fitness (Downtown)", category: "Gym", hours: "Approx. 8am–4pm" },
+      { city: "Chicago", name: "Mariano’s", category: "Grocery", hours: "Open until ~6pm" },
+    ];
+
+    const events = [
+      { city: "Boston", name: "Boston Common Ice Skating", price: "$15", date: "Holiday season" },
+      { city: "Boston", name: "Harvard Museums Free Sunday", price: "Free", date: "Selected Sundays" },
+      { city: "Boston", name: "Seaport Holiday Market", price: "Free entry", date: "December" },
+
+      { city: "New York City", name: "Bryant Park Winter Village", price: "Free entry", date: "Nov–Jan" },
+      { city: "New York City", name: "The MET Student Ticket", price: "$12", date: "Ongoing" },
+      { city: "New York City", name: "Chinatown Walking Tour", price: "Free / tip-based", date: "Various days" },
+
+      { city: "San Francisco", name: "Golden Gate Park Walk", price: "Free", date: "Any day" },
+      { city: "San Francisco", name: "SF MoMA Student Night", price: "$15", date: "Selected nights" },
+      { city: "San Francisco", name: "Ferry Building Holiday Market", price: "Free entry", date: "December" },
+
+      { city: "Los Angeles", name: "Griffith Observatory Visit", price: "Free", date: "Most days" },
+      { city: "Los Angeles", name: "Venice Beach Boardwalk", price: "Free", date: "Any day" },
+      { city: "Los Angeles", name: "LACMA Student Ticket", price: "$16", date: "Ongoing" },
+
+      { city: "Chicago", name: "Lincoln Park Zoo Lights", price: "Free", date: "Holiday season" },
+      { city: "Chicago", name: "Art Institute Student Ticket", price: "$15", date: "Ongoing" },
+      { city: "Chicago", name: "Chicago Riverwalk Walk", price: "Free", date: "Any day (weather-dependent)" },
+    ];
+
+    function scrollToMain() {
+      document.getElementById("main").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function renderDaily() {
+      const grid = document.getElementById("dailyGrid");
+      grid.innerHTML = "";
+      dailyChallenges.forEach((text, i) => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="card-pill">Day ${i + 1}</div>
+          <div>${text}</div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function googleMapsLink(name, city) {
+      return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name + " " + city)}`;
+    }
+
+    function googleSearchLink(name, city) {
+      return `https://www.google.com/search?q=${encodeURIComponent(name + " " + city)}`;
+    }
+
+    function renderPlaces() {
+      const city = document.getElementById("citySelect").value;
+      const grid = document.getElementById("placesGrid");
+      grid.innerHTML = "";
+      places.filter(p => p.city === city).forEach(p => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="card-pill">${p.category}</div>
+          <div class="card-title">${p.name}</div>
+          <div class="card-meta">${p.hours}</div>
+          <a class="link-btn" href="${googleMapsLink(p.name, p.city)}" target="_blank" rel="noreferrer noopener">
+            Open in Google Maps →
+          </a>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function renderEvents() {
+      const city = document.getElementById("eventsCitySelect").value;
+      const grid = document.getElementById("eventsGrid");
+      grid.innerHTML = "";
+      events.filter(e => e.city === city).forEach(e => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="card-pill">${e.city}</div>
+          <div class="card-title">${e.name}</div>
+          <div class="card-meta">${e.price} · ${e.date}</div>
+          <a class="link-btn" href="${googleSearchLink(e.name, e.city)}" target="_blank" rel="noreferrer noopener">
+            View details on Google →
+          </a>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    function generatePlan() {
+      const goalInput = document.getElementById("goalInput");
+      const goal = goalInput.value.trim() || "get a great opportunity";
+      const steps = [
+        "Define the exact role or outcome you want.",
+        "List 10 organizations or companies that match this goal.",
+        "Find 2 people at each organization on LinkedIn.",
+        "Update your resume so the top third screams this goal.",
+        "Rewrite your LinkedIn headline to reflect this role.",
+        "Create one simple project or work sample you can show.",
+        "Reach out to 3 people per week asking for honest advice.",
+        "Apply to at least 3 roles per week that truly fit.",
+        "Set up email and LinkedIn alerts for this role.",
+        "Practice common interview questions for 15 minutes, twice a week.",
+        "Write one short cold email template you can reuse.",
+        "Follow 10 industry leaders and engage with their posts.",
+        "Attend one free online or in-person event this month.",
+        "Track every application and conversation in a simple sheet.",
+        "Review progress every Sunday and choose one small tweak for next week."
+      ];
+      const text = `My goal is to ${goal}.\n\n15-step plan:\n\n` +
+        steps.map((s, i) => `${i + 1}. ${s}`).join("\n");
+      document.getElementById("planOutput").value = text;
+    }
+
+    function copyLink() {
+      const status = document.getElementById("copyStatus");
+      const link = window.location.href;
+      navigator.clipboard.writeText(link).then(() => {
+        status.textContent = "Link copied. Send it to someone who needs it. ❤️";
+      }).catch(() => {
+        status.textContent = "Couldn’t copy automatically, but you can copy the URL from your browser.";
+      });
+    }
+
+    // Initial render
+    renderDaily();
+    renderPlaces();
+    renderEvents();
+    generatePlan();
+  </script>
+</body>
+</html>
