@@ -9,8 +9,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
+    /* Pretty purple links */
+.link-btn,
+.sidebar-card a {
+  color: #8e44ad !important;      /* soft royal purple */
+  font-weight: 500;
+}
+
+.link-btn:hover,
+.sidebar-card a:hover {
+  color: #732d91 !important;       /* slightly deeper purple on hover */
+  text-decoration: underline;
+}
+
+    .card {
+  background: #ffffffcc; /* white with 80% opacity */
+  backdrop-filter: blur(4px);
+}
+
     :root {
-      --bg: #ffffff;
+      --bg: #fffaf0;
       --text: #111111;
       --muted: #777777;
       --border: #e5e5e5;
