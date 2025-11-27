@@ -16,6 +16,11 @@
   font-weight: 500;
 }
 
+    .sidebar-card iframe {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  border-radius: 16px;
+}
+
 .link-btn:hover,
 .sidebar-card a:hover {
   color: #732d91 !important;       /* slightly deeper purple on hover */
@@ -290,25 +295,28 @@
 
       <!-- RIGHT COLUMN -->
       <aside>
-  <!-- DOWNLOAD GUIDE -->
+<!-- DOWNLOAD THE ULTIMATE GUIDE -->
 <div class="sidebar-card">
   <h3 class="sidebar-title">Download the Ultimate Guide</h3>
   <p class="sidebar-text">
     Get my <strong>Ultimate Job Search Guide for International Students</strong>.
-    It includes scripts, strategies, visa advice, and a 30-day action plan.
+    Enter your email below and I’ll send it to you personally.
   </p>
 
-  <input 
-    id="emailInput"
-    placeholder="Enter your email"
-    style="width:100%; padding:0.6rem; border:1px solid var(--border); border-radius:999px; margin-bottom:0.6rem;"
-  />
-
-  <button class="btn-secondary" onclick="sendGuideRequest()">
-    Get the guide
-  </button>
-
-  <p id="guideStatus" class="sidebar-text" style="margin-top:0.6rem;"></p>
+  <!-- GOOGLE FORM HERE -->
+  <div style="width:100%; margin-top:0.5rem;">
+    <iframe 
+      src="<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSe8wW89AUA0I_WXYcDsi0HJih5arCfapmfhTz5GM6kB8sLkvQ/viewform?embedded=true" width="640" height="587" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>"
+      width="100%" 
+      height="420" 
+      frameborder="0" 
+      marginheight="0" 
+      marginwidth="0"
+      style="border-radius:12px; background:white;"
+    >
+      Loading…
+    </iframe>
+  </div>
 </div>
 
         
