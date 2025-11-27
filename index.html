@@ -226,93 +226,7 @@
 
         <hr style="margin: 2.5rem 0; border: none; height: 1px; background: var(--border);" />
 
-        const quotes = [
-  {
-    text: "And, when you want something, all the universe conspires in helping you to achieve it.",
-    author: "Paulo Coelho"
-  },
-  {
-    text: "Believe you can and you're halfway there.",
-    author: "Theodore Roosevelt"
-  },
-  {
-    text: "What lies behind us and what lies before us are tiny matters compared to what lies within us.",
-    author: "Ralph Waldo Emerson"
-  },
-  {
-    text: "You must do the thing you think you cannot do.",
-    author: "Eleanor Roosevelt"
-  },
-  {
-    text: "Everything you’ve ever wanted is sitting on the other side of fear.",
-    author: "George Addair"
-  },
-  {
-    text: "Success is not final, failure is not fatal: it is the courage to continue that counts.",
-    author: "Winston Churchill"
-  },
-  {
-    text: "Act as if what you do makes a difference. It does.",
-    author: "William James"
-  },
-  {
-    text: "We become what we think about.",
-    author: "Earl Nightingale"
-  },
-  {
-    text: "It is never too late to be what you might have been.",
-    author: "George Eliot"
-  },
-  {
-    text: "Courage is grace under pressure.",
-    author: "Ernest Hemingway"
-  }
-];
-
-const bibleVerses = [
-  {
-    text: "I can do all things through Christ who strengthens me.",
-    reference: "Philippians 4:13"
-  },
-  {
-    text: "For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future.",
-    reference: "Jeremiah 29:11"
-  },
-  {
-    text: "The Lord is my shepherd; I shall not want.",
-    reference: "Psalm 23:1"
-  },
-  {
-    text: "God is within her, she will not fall.",
-    reference: "Psalm 46:5"
-  },
-  {
-    text: "When I am afraid, I put my trust in You.",
-    reference: "Psalm 56:3"
-  },
-  {
-    text: "The Lord will fight for you; you need only to be still.",
-    reference: "Exodus 14:14"
-  },
-  {
-    text: "The Lord is my light and my salvation—whom shall I fear?",
-    reference: "Psalm 27:1"
-  },
-  {
-    text: "Be strong and courageous. Do not be afraid or discouraged, for the Lord your God is with you wherever you go.",
-    reference: "Joshua 1:9"
-  },
-  {
-    text: "Cast all your anxiety on Him because He cares for you.",
-    reference: "1 Peter 5:7"
-  },
-  {
-    text: "The Lord is close to the brokenhearted and saves those who are crushed in spirit.",
-    reference: "Psalm 34:18"
-  }
-];
-
-
+        
         <!-- PLACES -->
         <section class="section">
           <h2 class="section-title">What’s Open Today</h2>
@@ -358,36 +272,28 @@ const bibleVerses = [
 
       <!-- RIGHT COLUMN -->
       <aside>
-
-        <!-- INSPIRATION QUOTE -->
-<!-- INSPIRATION & FAITH -->
+  <!-- DOWNLOAD GUIDE -->
 <div class="sidebar-card">
-  <h3 class="sidebar-title">Your Inspiration Today</h3>
-
-  <p id="quoteText" class="sidebar-text" style="margin-bottom:0.4rem;">
-    Click a button to get your quote or verse.
+  <h3 class="sidebar-title">Download the Ultimate Guide</h3>
+  <p class="sidebar-text">
+    Get my <strong>Ultimate Job Search Guide for International Students</strong>.
+    It includes scripts, strategies, visa advice, and a 30-day action plan.
   </p>
-  <p id="quoteAuthor" class="sidebar-text" style="font-style:italic;"></p>
 
-  <div style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-top:0.6rem;">
-    <button
-      class="btn-secondary"
-      type="button"
-      onclick="showRandomInspiration('quote')"
-    >
-      Inspiration
-    </button>
-    <button
-      class="btn-secondary"
-      type="button"
-      onclick="showRandomInspiration('verse')"
-    >
-      Faith
-    </button>
-  </div>
+  <input 
+    id="emailInput"
+    placeholder="Enter your email"
+    style="width:100%; padding:0.6rem; border:1px solid var(--border); border-radius:999px; margin-bottom:0.6rem;"
+  />
+
+  <button class="btn-secondary" onclick="sendGuideRequest()">
+    Get the guide
+  </button>
+
+  <p id="guideStatus" class="sidebar-text" style="margin-top:0.6rem;"></p>
 </div>
 
-
+        
         <!-- JOB PLANNER -->
         <div class="sidebar-card">
           <h3 class="sidebar-title">One Goal Before the New Year</h3>
@@ -521,6 +427,27 @@ const bibleVerses = [
       { city:"Chicago", name:"Art Institute Student Ticket", price:"$15", date:"Ongoing"},
       { city:"Chicago", name:"Chicago Riverwalk Walk", price:"Free", date:"Any day"},
     ];
+    
+function sendGuideRequest() {
+  const email = document.getElementById("emailInput").value.trim();
+  const status = document.getElementById("guideStatus");
+
+  if (!email || !email.includes("@")) {
+    status.textContent = "Please enter a valid email.";
+    return;
+  }
+
+  const subject = encodeURIComponent("Ultimate Job Search Guide Request");
+  const body = encodeURIComponent(
+    `Hi Gigi,\n\nPlease send me the Ultimate Job Search Guide for International Students.\n\nMy email: ${email}\n\nThank you!`
+  );
+
+  // Send email using the user's email app
+  window.location.href = `mailto:YOUR_EMAIL_HERE?subject=${subject}&body=${body}`;
+
+  // Show confirmation message
+  status.textContent = "Thanks! Your email app should open now.";
+}
 
     /* ---------- FUNCTIONS ---------- */
 
@@ -587,39 +514,7 @@ const bibleVerses = [
       });
     }
 
-    function showRandomInspiration(mode) {
-  const quoteEl = document.getElementById("quoteText");
-  const authorEl = document.getElementById("quoteAuthor");
-  if (!quoteEl || !authorEl) return;
-
-  let item;
-  if (mode === "verse") {
-    if (!bibleVerses.length) return;
-    const i = Math.floor(Math.random() * bibleVerses.length);
-    item = bibleVerses[i];
-    quoteEl.textContent = item.text;
-    authorEl.textContent = item.reference ? `— ${item.reference}` : "";
-  } else {
-    if (!quotes.length) return;
-    const i = Math.floor(Math.random() * quotes.length);
-    item = quotes[i];
-    quoteEl.textContent = item.text;
-    authorEl.textContent = item.author ? `— ${item.author}` : "";
-  }
-}
-
-
-    function showRandomQuote() {
-  const quoteEl = document.getElementById("quoteText");
-  const authorEl = document.getElementById("quoteAuthor");
-  if (!quoteEl || !authorEl || quotes.length === 0) return;
-
-  const randomIndex = Math.floor(Math.random() * quotes.length);
-  const { text, author } = quotes[randomIndex];
-
-  quoteEl.textContent = text;
-  authorEl.textContent = author ? `— ${author}` : "";
-}
+  
     function parsePlanTextToArray(planText) {
   if (!planText) return [];
 
