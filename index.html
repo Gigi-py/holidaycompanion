@@ -361,7 +361,6 @@
       { city:"Los Angeles", name:"LA Fitness (Hollywood)", category:"Gym", hours:"Open until ~6pm"},
       { city:"Los Angeles", name:"Ralphs (Downtown)", category:"Grocery", hours:"Open until ~6pm"},
 
-      { city:"Chicago", name:"Intelligentsia (Logan Square)", category:"Cafe", hours:"Open until ~4pm"},
       { city:"Chicago", name:"Dollop Coffee", category:"Cafe", hours:"Open until ~3pm"},
       { city:"Chicago", name:"Planet Fitness (Downtown)", category:"Gym", hours:"Approx. 8am–4pm"},
       { city:"Chicago", name:"Mariano’s", category:"Grocery", hours:"Open until ~6pm"},
@@ -369,7 +368,7 @@
 
     const events = [
       { city:"Boston", name:"Boston Common Ice Skating", price:"$15", date:"Holiday season"},
-      { city:"Boston", name:"Harvard Museums Free Sunday", price:"Free", date:"Selected Sundays"},
+      { city:"Boston", name:"Harvard Museums Thursday Nights", price:"Free", date:"Selected Thursdays"},
       { city:"Boston", name:"Seaport Holiday Market", price:"Free entry", date:"December"},
 
       { city:"New York City", name:"Bryant Park Winter Village", price:"Free entry", date:"Nov–Jan"},
@@ -451,30 +450,35 @@
     }
 
     async function generatePlan() {
-      const goal = document.getElementById("goalInput").value.trim();
-      const output = document.getElementById("planOutput");
+  const goal = document.getElementById("goalInput").value.trim();
+  const output = document.getElementById("planOutput");
 
-      if (!goal) {
-        output.value = "Please enter a clear goal!";
-        return;
-      }
+  if (!goal) {
+    output.value = "Please enter a clear goal!";
+    return;
+  }
 
-      output.value = "Creating your 30-day plan…";
+  output.value = "Creating your 30-day plan…";
 
-      try {
-        const res = await fetch("/api/plan", {
-          method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({ goal })
-        });
+  try {
+    const res = await fetch("/api/plan?goal=" + encodeURIComponent(goal), {
+      method: "GET"
+    });
 
-        const data = await res.json();
-        output.value = data.plan || "Could not generate steps.";
-      } catch (err) {
-        console.error(err);
-        output.value = "Error. Try again.";
-      }
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok) {
+      output.value = data.error || "Server error. Check API key / logs.";
+      return;
     }
+
+    output.value = data.plan || "No steps returned. Try again.";
+  } catch (err) {
+    console.error(err);
+    output.value = "Network error. Please try again.";
+  }
+}
+
 
     function copyLink() {
       const link = window.location.href;
