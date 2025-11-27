@@ -395,17 +395,21 @@
     }
 
     function renderDaily() {
-      const grid = document.getElementById("dailyGrid");
-      dailyChallenges.forEach((text, i) => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-          <div class="card-pill">Day ${i + 1}</div>
-          <div>${text}</div>
-        `;
-        grid.appendChild(card);
-      });
-    }
+  const grid = document.getElementById("dailyGrid");
+  if (!grid) return;
+
+  grid.innerHTML = ""; // clear existing cards
+
+  dailyChallenges.forEach((text, i) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div class="card-pill">Day ${i + 1}</div>
+      <div>${text}</div>
+    `;
+    grid.appendChild(card);
+  });
+}
 
     function googleMapsLink(name, city) {
       return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name + " " + city)}`;
@@ -449,6 +453,19 @@
       });
     }
 
+    function parsePlanTextToArray(planText) {
+  if (!planText) return [];
+
+  return planText
+    .split("\n")
+    .map(line => line.trim())
+    .filter(line => line.length > 0)
+    .map(line => {
+      // Strip "Day X:" prefix if present
+      const match = line.match(/^Day\s*\d+:\s*(.*)$/i);
+      return match && match[1] ? match[1].trim() : line;
+    });
+}
     async function generatePlan() {
   const goal = document.getElementById("goalInput").value.trim();
   const output = document.getElementById("planOutput");
@@ -472,7 +489,23 @@
       return;
     }
 
-    output.value = data.plan || "No steps returned. Try again.";
+    const planText = data.plan || "";
+    if (!planText) {
+      output.value = "No steps returned. Try again.";
+      return;
+    }
+
+    // Show raw text in the textarea
+    output.value = planText;
+
+    // ✅ Also update the 30-day challenge grid
+    const items = parsePlanTextToArray(planText);
+    if (items.length) {
+      // overwrite the global dailyChallenges "database"
+      dailyChallenges.length = 0;
+      dailyChallenges.push(...items.slice(0, 30)); // keep max 30
+      renderDaily();
+    }
   } catch (err) {
     console.error(err);
     output.value = "Network error. Please try again.";
